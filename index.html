@@ -5,335 +5,122 @@
   <meta charset="utf-8">
   <title>LYNY</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Official site of LYNY. Monochrome, dimensional, flume‑style minimalism.">
+  <meta name="description" content="LYNY — monochrome minimal.">
   <style>
-    / Monochrome flume-style: geometric lines, depth, negative space, same font stack retained /
     :root{
-      --bg:#0a0a0a; --fg:#f2f2f2; --muted:#a0a0a0; --line:#131313; --line2:#1d1d1d; --ink:#ffffff;
-      --grid: 56px; --pad: 24px; --ch: 58ch;
-      --btn: #fff; --btnTxt:#000;
+      --bg:#0a0a0a; --fg:#f2f2f2; --muted:#a0a0a0; --line:#151515;
+      --btn:#ffffff; --btnTxt:#000000;
     }
     @media (prefers-color-scheme: light){
-      :root{ --bg:#f7f7f7; --fg:#0a0a0a; --muted:#555; --line:#eaeaea; --line2:#e0e0e0; --ink:#000; --btn:#000; --btnTxt:#fff; }
+      :root{ --bg:#f7f7f7; --fg:#0a0a0a; --muted:#666; --line:#e8e8e8; --btn:#000; --btnTxt:#fff; }
     }
 
     html, body { height:100%; margin:0; }
     body{
-      background:radial-gradient(1200px 600px at 50% -10%, #0e0e0e 0%, var(--bg) 60%);
+      background:
+        radial-gradient(1200px 700px at 50% -10%, #0e0e0e 0%, var(--bg) 60%),
+        linear-gradient(to bottom, rgba(255,255,255,.02), transparent 30%);
       color:var(--fg);
       font: 15px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       letter-spacing:.2px;
-      display:flex; align-items:center; justify-content:center;
-      overflow-x:hidden;
+      display:grid; place-items:center;
+      overflow:hidden;
     }
 
-    / Layered dimensional lines: parallax grids + angled cuts /
-    .grid, .grid2, .diag, .vignet{
-      position:fixed; inset:0; pointer-events:none;
-    }
-    .grid{
+    / Subtle dimensional grid + lines (artistic but quiet) /
+    .lines, .cuts { position:fixed; inset:0; pointer-events:none; }
+    .lines{
       background:
-        linear-gradient(to right, var(--line) 1px, transparent 1px) 0 0/var(--grid) var(--grid),
-        linear-gradient(to bottom, var(--line) 1px, transparent 1px) 0 0/var(--grid) var(--grid);
-      opacity:.15; mix-blend-mode:normal; transform:translateZ(0);
+        linear-gradient(to right, var(--line) 1px, transparent 1px) 0 0/64px 64px,
+        linear-gradient(to bottom, var(--line) 1px, transparent 1px) 0 0/64px 64px;
+      opacity:.12;
     }
-    .grid2{
+    .cuts{
       background:
-        linear-gradient(to right, transparent 50%, var(--line2) 50% 51%, transparent 51%) 0 0/var(--grid) var(--grid),
-        linear-gradient(to bottom, transparent 50%, var(--line2) 50% 51%, transparent 51%) 0 0/var(--grid) var(--grid);
-      opacity:.10; mix-blend-mode:normal;
-      transform: translateY(-1px) scale(1.01); / micro parallax offset /
-    }
-    .diag{
-      background:
-        linear-gradient(135deg, transparent 48%, rgba(255,255,255,.06) 49%, transparent 50%) 0 0/180px 180px,
-        linear-gradient(45deg, transparent 48%, rgba(255,255,255,.04) 49%, transparent 50%) 0 0/160px 160px;
-      opacity:.08;
-    }
-    .vignet{
-      background: radial-gradient(1200px 800px at 50% 120%, rgba(0,0,0,.35), transparent 60%),
-                  radial-gradient(900px 500px at 10% 10%, rgba(255,255,255,.04), transparent 60%);
-      opacity:.8;
+        linear-gradient(135deg, rgba(255,255,255,.06) 0 1px, transparent 1px) 0 0/180px 180px,
+        linear-gradient(45deg, rgba(255,255,255,.04) 0 1px, transparent 1px) 0 0/140px 140px;
+      opacity:.06;
     }
 
     main{
-      width:100%; max-width:1040px; padding:46px 22px;
       position:relative; z-index:1;
+      display:grid; place-items:center; gap:30px;
+      padding:24px;
     }
 
-    header{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
-      border-bottom:1px solid var(--line2); padding-bottom:12px;
-      mix-blend-mode:normal;
-    }
-
-    / LYNY logotype — keep the same font styling spirit, add dimensional split + shadow slice /
+    / Title — large, uppercase, split-line accent /
     h1{
-      position:relative; margin:0; text-transform:uppercase; font-weight:800;
-      letter-spacing:4px; font-size:clamp(40px, 9vw, 140px); line-height:.8;
-      filter: drop-shadow(0 16px 18px rgba(0,0,0,.35));
-    }
-    h1::before{
-      / hard light sheen /
-      content:""; position:absolute; left:2%; right:2%; top:12%; height:36%;
-      background: linear-gradient(to bottom, rgba(255,255,255,.12), transparent 80%);
-      mix-blend-mode:screen; pointer-events:none;
+      position:relative; margin:0;
+      text-transform:uppercase; font-weight:800; letter-spacing:4px;
+      font-size:clamp(48px, 11vw, 160px); line-height:.82;
+      filter: drop-shadow(0 18px 22px rgba(0,0,0,.35));
+      text-align:center;
     }
     h1::after{
-      / split line /
-      content:""; position:absolute; left:-3%; right:-3%; top:52%;
-      height:1px; background:linear-gradient(90deg, transparent 0 6%, var(--ink) 30% 70%, transparent 94% 100%);
-      opacity:.8; transform: translateY(-1px);
+      content:""; position:absolute; left:-4%; right:-4%; top:52%;
+      height:1px;
+      background:linear-gradient(90deg, transparent 0 8%, #fff 25% 75%, transparent 92% 100%);
+      opacity:.85; transform: translateY(-1px);
     }
 
-    / NAV — thin, spectral /
-    nav a{
-      color:var(--muted); text-decoration:none; position:relative; margin-left:24px; padding:4px 0;
-      cursor: crosshair; text-transform:uppercase; letter-spacing:1px; font-size:12px;
-      opacity:.9;
-    }
-    nav a::after{
-      content:""; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:transparent;
-    }
-    nav a:hover, nav a:focus{ color:var(--fg); outline:none; }
-    nav a:hover::after{ background:var(--fg); }
-
-    .tagline{
-      margin:14px 0 8px; color:var(--muted); text-transform:uppercase; letter-spacing:1.1px;
-      max-width:var(--ch);
-    }
-
-    / Center action cluster — flume-style hero with dimensional rules /
-    .hero{
-      position:relative; display:flex; align-items:center; justify-content:center;
-      padding:60px 0 70px; margin-top:10px;
-    }
-    .hero::before, .hero::after{
-      content:""; position:absolute; left:0; right:0; height:1px; background:
-        linear-gradient(90deg, transparent 0 8%, var(--line2) 10% 90%, transparent 92% 100%);
-      opacity:.9;
-    }
-    .hero::before{ top:0; }
-    .hero::after{ bottom:0; }
-    .hero-grid{
-      position:absolute; inset:0; pointer-events:none;
-      background:
-        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px) 0 0/88px 88px,
-        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px) 0 0/88px 88px;
-      opacity:.12;
-      mask-image: radial-gradient(600px 220px at 50% 50%, #000 0%, transparent 80%);
-    }
-
+    / Center buttons cluster /
     .cta-wrap{
       display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
-      transform: translateZ(0);
     }
     .cta{
       appearance:none; border:1px solid var(--fg); background:transparent; color:var(--fg);
       padding:12px 18px; text-transform:uppercase; letter-spacing:1.2px; font-size:12px;
       cursor: crosshair; position:relative; isolation:isolate;
-      transition: color .12s ease, background .12s ease, letter-spacing .12s ease, transform .12s ease;
     }
-    .cta::before, .cta::after{
-      content:""; position:absolute; inset:0; pointer-events:none; transition:opacity .12s ease, transform .12s ease;
-    }
-    .cta::before{
-      / inner bevel line /
-      border:1px solid rgba(255,255,255,.18); transform:translate(2px,2px); opacity:.6;
-    }
-    .cta::after{
-      / glossy diagonal /
-      background:linear-gradient(135deg, rgba(255,255,255,.14), transparent 40% 100%);
-      opacity:.0;
-    }
-    .cta:hover{
-      background:var(--btn); color:var(--btnTxt); letter-spacing:1.6px; transform: translateY(-1px);
-    }
-    .cta:hover::after{ opacity:.18; }
-    .cta:active{ transform: translateY(0); }
+    .cta::before{ content:""; position:absolute; inset:0; border:1px solid rgba(255,255,255,.18); transform:translate(2px,2px); opacity:.6; }
+    .cta:hover{ background:var(--btn); color:var(--btnTxt); letter-spacing:1.6px; }
+    .cta:active{ transform: translateY(1px); }
 
-    .section{ margin:44px 0; }
-    h2{
-      margin:0 0 12px; font-size:12px; text-transform:uppercase; letter-spacing:1.2px; color:var(--muted);
-    }
-    .narrow{ max-width:var(--ch); }
+    / Minimal footer with year, kept microscopic /
+    footer{ position:fixed; bottom:14px; left:50%; transform:translateX(-50%); color:var(--muted); font-size:11px; letter-spacing:.6px; }
 
-    / Multi-depth rules for sections /
-    .rule{ height:1px; background:linear-gradient(90deg, transparent 0 4%, var(--line2) 10% 90%, transparent 96% 100%); margin:26px 0; }
-    .rule.thick{ height:2px; background:linear-gradient(90deg, transparent 0 6%, var(--fg) 18% 82%, transparent 94% 100%); opacity:.15; }
-
-    .list{ list-style:none; padding:0; margin:0; }
-    .list li{ margin:14px 0; }
-
-    footer{
-      margin-top:50px; color:var(--muted); font-size:12px;
-      border-top:1px solid var(--line2); padding-top:12px;
-      display:flex; justify-content:space-between; align-items:center;
-    }
-
-    / Samurai boss-fight energy: angled mask bars framing the content /
-    .mask-bars{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,.45) 0 2px, transparent 2px) calc(50% - 300px) 0/1px 100%,
-        linear-gradient(90deg, rgba(0,0,0,.45) 0 2px, transparent 2px) calc(50% + 300px) 0/1px 100%,
-        linear-gradient(180deg, rgba(0,0,0,.35) 0 2px, transparent 2px) 0 calc(50% - 200px)/100% 1px,
-        linear-gradient(180deg, rgba(0,0,0,.35) 0 2px, transparent 2px) 0 calc(50% + 200px)/100% 1px;
-      mix-blend-mode:multiply;
-    }
-    .angle-cuts{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      background:
-        conic-gradient(from 135deg at 10% 0%, rgba(255,255,255,.06), transparent 20%) 0 0/100% 100%,
-        conic-gradient(from -45deg at 90% 100%, rgba(255,255,255,.05), transparent 20%) 0 0/100% 100%;
-    }
-
-    / Focus ring for a11y /
-    :focus-visible{ outline:1px dashed var(--ink); outline-offset:2px; }
-
-    / Motion polish /
+    / Motion polish (respect reduced motion) /
     @media (prefers-reduced-motion:no-preference){
-      nav a, .cta{ transition: all .14s ease; }
-      header{ transition: filter .2s ease; }
-      header:hover{ filter: brightness(1.04); }
+      .cta{ transition: all .14s ease; }
+      h1{ transition: letter-spacing .18s ease; }
+      h1:hover{ letter-spacing:6px; }
+      body{ transition: background .3s ease; }
     }
+
+    / A11y /
+    :focus-visible{ outline:1px dashed #fff; outline-offset:3px; }
   </style>
 </head>
 <body>
-  <!-- Dimensional line layers -->
-  <div class="grid" aria-hidden="true"></div>
-  <div class="grid2" aria-hidden="true"></div>
-  <div class="diag" aria-hidden="true"></div>
-  <div class="mask-bars" aria-hidden="true"></div>
-  <div class="angle-cuts" aria-hidden="true"></div>
-  <div class="vignet" aria-hidden="true"></div>
+  <div class="lines" aria-hidden="true"></div>
+  <div class="cuts" aria-hidden="true"></div>
 
   <main id="root">
-    <header>
-      <h1 aria-label="LYNY">LYNY</h1>
-      <nav aria-label="primary">
-        <a href="#music">Music</a>
-        <a href="#shows">Shows</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+    <h1 aria-label="LYNY">LYNY</h1>
 
-    <p class="tagline">Minimal sounds. Maximum feeling.</p>
-
-    <section class="hero" aria-labelledby="hero-h">
-      <span id="hero-h" class="visually-hidden" aria-hidden="true"></span>
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="cta-wrap">
-        <a class="cta" href="#stream">Stream Album</a>
-        <a class="cta" href="#tour">Tour</a>
-        <a class="cta" href="#shop">Shop</a>
-      </div>
-    </section>
-
-    <div class="rule thick" aria-hidden="true"></div>
-
-    <section class="section narrow" id="music" aria-labelledby="music-h">
-      <h2 id="music-h">Music</h2>
-      <ul class="list">
-        <li>New monochrome LP available now.</li>
-        <li>Listen on Spotify, Apple Music, and everywhere else.</li>
-      </ul>
-    </section>
-
-    <section class="section narrow" id="shows" aria-labelledby="shows-h">
-      <h2 id="shows-h">Shows</h2>
-      <ul class="list">
-        <li>Dates TBA — align with the grid, arrive off‑axis.</li>
-      </ul>
-    </section>
-
-    <section class="section narrow" id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h">Contact</h2>
-      <ul class="list">
-        <li>Bookings: <a href="mailto:booking@lyny.com">booking@lyny.com</a></li>
-        <li>Press: <a href="mailto:press@lyny.com">press@lyny.com</a></li>
-        <li>Instagram: <a href="https://instagram.com/lyny" rel="noopener">@lyny</a></li>
-      </ul>
-    </section>
-
-    <footer>
-      <span>© <span id="y"></span> LYNY</span>
-      <span style="opacity:.7;">black & white only</span>
-    </footer>
+    <div class="cta-wrap">
+      <a class="cta" href="#stream">Stream Album</a>
+      <a class="cta" href="#tour">Tour</a>
+      <a class="cta" href="#shop">Shop</a>
+    </div>
   </main>
+
+  <footer>© <span id="y"></span> LYNY</footer>
 
   <script>
     // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Deliberate micro-delay on nav for mouse, instant for keyboard
-    document.querySelectorAll('nav a').forEach(a => {
-      a.addEventListener('click', (e) => {
-        if (e.detail === 0) return; // keyboard activation
-        e.preventDefault();
-        const href = a.getAttribute('href');
-        a.style.opacity = '0.45';
-        setTimeout(() => {
-          a.style.opacity = '';
-          if (href && href.startsWith('#')) {
-            const el = document.querySelector(href);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            history.pushState(null, '', href);
-          } else if (href) {
-            location.assign(href);
-          }
-        }, 160);
-      });
-    });
-
-    // Hero buttons smooth-scroll targets
-    const map = {
-      '#stream': '#music',
-      '#tour': '#shows',
-      '#shop': '#contact'
-    };
+    // Smooth-scroll mapping for center buttons (kept minimal; targets can be added later)
+    const map = { '#stream':'#', '#tour':'#', '#shop':'#' };
     document.querySelectorAll('.cta').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const h = e.currentTarget.getAttribute('href');
         const t = map[h];
-        if (t) {
-          e.preventDefault();
-          const el = document.querySelector(t);
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          history.pushState(null, '', t);
-        }
+        if (t && t !== '#'){ e.preventDefault(); document.querySelector(t)?.scrollIntoView({ behavior:'smooth' }); }
       });
-    });
-
-    // Subtle parallax on grids with mouse (desktop only)
-    const mq = matchMedia('(pointer:fine)');
-    if (mq.matches){
-      const grid = document.querySelector('.grid');
-      const grid2 = document.querySelector('.grid2');
-      const diag = document.querySelector('.diag');
-      window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / innerWidth - 0.5);
-        const y = (e.clientY / innerHeight - 0.5);
-        grid.style.transform = translate(${x  6}px, ${y  4}px);
-        grid2.style.transform = translate(${x  -8}px, ${y  -6}px) scale(1.01);
-        diag.style.transform = translate(${x  10}px, ${y  8}px);
-      });
-    }
-
-    // Keyboard secret: press 'B' to invert subtly (bleach mode), keeping typography
-    const root = document.getElementById('root');
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'b') {
-        document.documentElement.classList.toggle('bleach');
-      }
     });
   </script>
-  <style>
-    / Bleach mode: a touch brighter, still monochrome /
-    .bleach :root, .bleach{
-      --bg:#0d0d0d; --fg:#fafafa; --muted:#c2c2c2; --line:#1a1a1a; --line2:#232323; --ink:#fff;
-    }
-  </style>
 </body>
 </html>
 ``
