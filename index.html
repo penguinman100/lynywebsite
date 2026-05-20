@@ -6,98 +6,165 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Official site of LYNY. Music, shows, and contact.">
   <style>
-    /* Rick Owens-esque: stark monochrome, generous negative space, razor-thin lines, slightly 'hostile' UX */
-    :root {
-      --bg:#0a0a0a; --fg:#f4f4f4; --muted:#9a9a9a; --link:#f4f4f4; --line:#1a1a1a;
-      --accent:#ffffff; /* used sparingly */
-      --col: clamp(14px, 1.4vw + 10px, 18px);
+    /* Monochrome, sleek, new‑wave punk energy — minimal but opinionated */
+    :root{
+      --bg:#0a0a0a; --fg:#f2f2f2; --muted:#9a9a9a; --line:#151515; --ink:#ffffff;
+      --hit: 10px;          /* small hit areas make it feel 'hard' */
+      --grid: 60px;         /* macro grid */
+      --ch: 58ch;           /* narrow line length */
     }
-    @media (prefers-color-scheme: light) {
-      :root { --bg:#f9f9f9; --fg:#0a0a0a; --muted:#666; --link:#0a0a0a; --line:#e8e8e8; --accent:#000; }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f7f7f7; --fg:#0a0a0a; --muted:#555; --line:#e8e8e8; --ink:#000; }
     }
+
     html, body { height:100%; margin:0; }
-    body {
+    body{
       background:var(--bg); color:var(--fg);
-      font: var(--col)/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      letter-spacing: 0.2px;
+      font: 15px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      letter-spacing:.2px;
       display:flex; align-items:center; justify-content:center;
     }
-    main { width:100%; max-width:820px; padding:40px 22px; }
-    header { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; border-bottom:1px solid var(--line); padding-bottom:10px; }
-    /* Brutalist logotype vibe */
-    h1 {
-      font-size: clamp(28px, 3vw + 10px, 44px);
-      margin:0; letter-spacing:2px; font-weight:700;
-      text-transform:uppercase;
+
+    /* FRAME: hairline grid + margin bleed creates tension */
+    body::before{
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background:
+        linear-gradient(to right, var(--line) 1px, transparent 1px) 0 0/var(--grid) var(--grid),
+        linear-gradient(to bottom, var(--line) 1px, transparent 1px) 0 0/var(--grid) var(--grid);
+      opacity:.12;
     }
-    /* Make nav "a little hard": tiny hit areas, spaced, and offset underline */
-    nav a {
-      color:var(--muted); text-decoration:none; margin-left:22px; position:relative; padding:2px 0;
+
+    main{
+      width:100%; max-width:940px; padding:46px 22px;
+      /* Subtle skew + parallax feel */
+      transform: skewY(-0.4deg);
     }
-    nav a::after {
+
+    header{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+      border-bottom:1px solid var(--line); padding-bottom:12px;
+      mix-blend-mode: normal;
+    }
+
+    /* LYNY logotype — stark, oversized, slightly tracked, with slice mask */
+    h1{
+      position:relative;
+      margin:0; text-transform:uppercase; font-weight:800;
+      letter-spacing:4px;
+      font-size:clamp(40px, 9vw, 132px);
+      line-height:.8;
+    }
+    /* split line through the logotype (punk, but crisp) */
+    h1::after{
+      content:""; position:absolute; left:-2%; right:-2%; top:50%;
+      height:1px; background:linear-gradient(90deg, transparent 0 3%, var(--ink) 20% 80%, transparent 97% 100%);
+      opacity:.8; transform: translateY(-1px);
+    }
+
+    /* NAV — tiny click targets, ghost underline, crosshair cursor */
+    nav a{
+      color:var(--muted); text-decoration:none; position:relative;
+      margin-left:24px; padding:4px 0;
+      cursor: crosshair;
+      text-transform:uppercase; letter-spacing:1px; font-size:12px;
+    }
+    nav a::after{
       content:""; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:transparent;
       transform: translateY(0);
     }
-    nav a:hover, nav a:focus { color:var(--fg); outline:none; }
-    nav a:hover::after, nav a:focus::after { background:var(--fg); }
-    /* Tagline: razor-thin rule above, cramped kerning */
-    .tagline {
-      margin:14px 0 30px; color:var(--muted);
-      letter-spacing:0.8px; text-transform:uppercase; font-size:0.95em;
-      border-top:1px solid var(--line); padding-top:10px;
-    }
-    .section { margin:34px 0; }
-    .list { list-style:none; padding:0; margin:0; }
-    .list li { margin:12px 0; }
+    nav a:hover, nav a:focus{ color:var(--fg); outline:none; }
+    nav a:hover::after{ background:var(--fg); }
 
-    /* Links: monochrome, underline appears only on hover, cursor is a thin crosshair to feel 'aloof' */
-    a { color:var(--link); text-decoration:none; cursor: crosshair; }
-    a:hover { text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:2px; }
-
-    /* Audio: stark minimal bar with almost-hidden controls */
-    audio { width:100%; margin-top:10px; filter: grayscale(100%); opacity:.9; }
-    audio:hover { opacity:1; }
-
-    /* "Hard to click through" micro friction: slight fade until hover */
-    section a, .list a { opacity:.8; }
-    section a:hover, .list a:focus { opacity:1; }
-
-    /* Micro layout tension: slightly narrow line-length on lists */
-    .narrow { max-width:56ch; }
-
-    /* Respect reduced motion; otherwise a faint hover transition */
-    @media (prefers-reduced-motion:no-preference) {
-      a, nav a { transition: color .12s ease, opacity .12s ease; }
+    /* Hero strip — compressed, mysterious */
+    .tagline{
+      margin:14px 0 34px; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px;
+      border-top:1px solid var(--line); padding-top:12px;
+      max-width:var(--ch);
     }
 
-    /* Subtle grid hairlines to add texture (punk-but-sleek) */
-    body::before {
-      content:""; position:fixed; inset:0; pointer-events:none;
-      background:
-        linear-gradient(to right, var(--line) 1px, transparent 1px) 0 0/56px 56px,
-        linear-gradient(to bottom, var(--line) 1px, transparent 1px) 0 0/56px 56px;
-      opacity:.15;
+    .section{ margin:40px 0; }
+    .narrow{ max-width:var(--ch); }
+
+    h2{
+      margin:0 0 12px; font-size:12px; text-transform:uppercase; letter-spacing:1.2px;
+      color:var(--muted);
     }
 
-    /* Small-caps section headings, minimal scale */
-    h2 { margin:0 0 10px; font-size:16px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+    .list{ list-style:none; padding:0; margin:0; }
+    .list li{ margin:14px 0; }
 
-    footer { margin-top:40px; color:var(--muted); font-size:0.9em; border-top:1px solid var(--line); padding-top:12px; display:flex; justify-content:space-between; align-items:center; }
+    /* Links: monochrome with micro-friction (fade until hover) */
+    a{ color:var(--fg); text-decoration:none; opacity:.78; }
+    a:hover{ opacity:1; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:2px; }
 
-    /* Easter egg: tilt main slightly on very wide screens, then straighten on hover (new-wave mischief) */
-    @media (min-width: 1100px) {
-      main { transform: rotate(-0.25deg); }
-      main:hover { transform: none; transition: transform .18s ease; }
+    /* Audio: grayscale, thin, nearly hidden until hover */
+    audio{ width:100%; margin-top:10px; filter:grayscale(100%); opacity:.85; }
+    audio:hover{ opacity:1; }
+
+    /* PUNK MOTION: low‑amplitude hover jitter on section titles (reduced-motion safe) */
+    @media (prefers-reduced-motion:no-preference){
+      h2:hover{ transform: translateX(1px); transition: transform .1s ease; }
+      a, nav a{ transition: color .12s ease, opacity .12s ease, letter-spacing .12s ease; }
+      nav a:hover{ letter-spacing:2px; }
     }
 
-    /* Accessibility: focus ring still visible despite the "aloof" look */
-    :focus-visible { outline: 1px dashed var(--accent); outline-offset: 2px; }
+    /* Divider rhythm */
+    .rule{ height:1px; background:var(--line); margin:26px 0; }
+
+    /* SHOWS list: faux table with hairlines */
+    .shows li{
+      display:grid; grid-template-columns: 140px 1fr 120px; gap:12px;
+      border-bottom:1px solid var(--line); padding:8px 0;
+    }
+
+    /* Footer */
+    footer{
+      margin-top:46px; color:var(--muted); font-size:12px;
+      border-top:1px solid var(--line); padding-top:12px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+
+    /* Micro 'hostile' ux: narrow hit areas on nav for pointer, full for keyboard */
+    nav a{ padding-inline: 0; }
+    nav a::before{
+      content:""; position:absolute; inset: -4px 0 -4px 0; /* do not increase width */
+    }
+
+    /* Secret: press 'B' to invert (bleached mode) */
+    .bleached{
+      --bg:#111; --fg:#fafafa; --muted:#b5b5b5; --line:#1c1c1c; --ink:#fff;
+      filter:contrast(105%) saturate(95%);
+    }
+
+    /* Secret cursor line that follows on desktop (thin, subtle) */
+    .cursor-line{
+      position:fixed; top:0; width:1px; height:100vh; background:linear-gradient(var(--fg), transparent 60%);
+      opacity:.12; pointer-events:none; transform: translateX(-9999px);
+    }
+
+    /* Marquee ribbon — ultra subtle, only on hover of header */
+    .ribbon{
+      position:relative; overflow:hidden; height:18px; margin-top:10px;
+      mask-image: linear-gradient(90deg, transparent 0 4%, #000 12% 88%, transparent 96% 100%);
+    }
+    .ribbon-inner{
+      position:absolute; white-space:nowrap; color:var(--muted); font-size:11px; letter-spacing:1px;
+      top:0; left:0; transform: translateX(-40%);
+    }
+    header:hover + .tagline + .ribbon .ribbon-inner{
+      animation: slide 8s linear infinite;
+    }
+    @keyframes slide{
+      to{ transform: translateX(0%); }
+    }
+
+    :focus-visible{ outline:1px dashed var(--ink); outline-offset:2px; }
   </style>
 </head>
 <body>
-  <main>
+  <main id="root">
     <header>
-      <h1>LYNY</h1>
+      <h1 aria-label="LYNY">LYNY</h1>
       <nav aria-label="primary">
         <a href="#music">Music</a>
         <a href="#shows">Shows</a>
@@ -106,6 +173,13 @@
     </header>
 
     <p class="tagline">Minimal sounds. Maximum feeling.</p>
+
+    <!-- whisper marquee -->
+    <div class="ribbon" aria-hidden="true">
+      <div class="ribbon-inner">LYNY — new single out now — LYNY — new single out now — LYNY — new single out now —</div>
+    </div>
+
+    <div class="rule" aria-hidden="true"></div>
 
     <section class="section narrow" id="music" aria-labelledby="music-h">
       <h2 id="music-h">Music</h2>
@@ -128,10 +202,11 @@
 
     <section class="section narrow" id="shows" aria-labelledby="shows-h">
       <h2 id="shows-h">Shows</h2>
-      <ul class="list">
-        <li>2026-06-12 — City, Venue — Doors 8pm</li>
-        <li>2026-07-03 — City, Festival — 6pm Stage B</li>
-        <li><em>More dates soon.</em></li>
+      <ul class="list shows">
+        <li><span>2026‑06‑12</span><span>Chicago, Subterranean</span><span>Doors 8pm</span></li>
+        <li><span>2026‑07‑03</span><span>NYC, Elsewhere (Hall)</span><span>Stage B 6pm</span></li>
+        <li><span>2026‑08‑19</span><span>Los Angeles, Lodge Room</span><span>9pm</span></li>
+        <li><em style="grid-column:1/-1; color:var(--muted);">More dates soon.</em></li>
       </ul>
     </section>
 
@@ -146,33 +221,52 @@
 
     <footer>
       <span>© <span id="y"></span> LYNY</span>
-      <span style="opacity:.7;">built in monochrome</span>
+      <span style="opacity:.7;">monochrome only</span>
     </footer>
   </main>
 
+  <div class="cursor-line" aria-hidden="true"></div>
+
   <script>
-    // Minimal JS: set current year, add tiny 'hostile' nav delay on click to feel deliberate.
+    // Year stamp
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Micro-delay clicks on nav to create a subtle 'are you sure?' vibe, but cancelable via keyboard (no delay on key-activated focus)
+    // Micro-delay nav clicks: feels deliberate; keyboard activation is instant.
     document.querySelectorAll('nav a').forEach(a => {
       a.addEventListener('click', (e) => {
-        if (e.detail === 0) return; // keyboard activation; respect accessibility
+        if (e.detail === 0) return; // keyboard activation — don't delay
         e.preventDefault();
         const href = a.getAttribute('href');
-        a.style.opacity = '0.5';
+        a.style.opacity = '0.45';
         setTimeout(() => {
           a.style.opacity = '';
           if (href && href.startsWith('#')) {
             const el = document.querySelector(href);
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             history.pushState(null, '', href);
-          } else {
-            window.location.href = href;
+          } else if (href) {
+            location.assign(href);
           }
-        }, 160);
+        }, 180);
       });
     });
+
+    // Secret: press 'B' to toggle bleached mode
+    const root = document.getElementById('root');
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'b') {
+        root.classList.toggle('bleached');
+      }
+    });
+
+    // Thin cursor line that stalks the pointer (desktop only)
+    const line = document.querySelector('.cursor-line');
+    const mq = matchMedia('(pointer:fine)');
+    if (mq.matches) {
+      window.addEventListener('mousemove', (e) => {
+        line.style.transform = `translateX(${e.clientX}px)`;
+      });
+    }
   </script>
 </body>
 </html>
